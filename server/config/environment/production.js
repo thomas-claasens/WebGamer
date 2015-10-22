@@ -15,9 +15,7 @@ module.exports = {
 
   // MongoDB connection options
   mongo: {
-    uri:    process.env.MONGOLAB_URI ||
-            process.env.MONGOHQ_URL ||
-            process.env.OPENSHIFT_MONGODB_DB_URL+process.env.OPENSHIFT_APP_NAME ||
-            'mongodb://localhost/webgamer'
-  }
+    uri: 'mongodb://webgamer:gamemaster@ds043694.mongolab.com:43694/webgamer'
+  },
+  //seedDB: true,
 };
