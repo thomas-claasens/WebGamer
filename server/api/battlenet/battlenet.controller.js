@@ -6,7 +6,7 @@ var bnet = require('battlenet-api')('w2gwwu25wwnm2vhw8bb5a3wcq2yfuvj3');
 // Get list of battlenets
 exports.index = function (req, res) {
   bnet.wow.realmStatus({ origin: 'eu' }, function (err, data) { 
-    console.log(data);
+    //console.log(data);
     return res.status(200).json(data);
   });
   // Battlenet.find(function (err, battlenets) {
@@ -16,12 +16,19 @@ exports.index = function (req, res) {
 };
 
 // Get a single battlenet
-exports.show = function(req, res) {
-  Battlenet.findById(req.params.id, function (err, battlenet) {
-    if(err) { return handleError(res, err); }
-    if(!battlenet) { return res.status(404).send('Not Found'); }
-    return res.json(battlenet);
-  });
+exports.show = function (req, res) {
+  var tag = req.params.tag;
+  tag = 'ONeX%232407';
+  bnet.d3.profile.career({ origin: 'eu', tag: tag }, function (err, data) {
+    console.log(err);
+    console.log(data);
+    return res.json(data);
+   });
+  // Battlenet.findById(req.params.id, function (err, battlenet) {
+  //   if(err) { return handleError(res, err); }
+  //   if(!battlenet) { return res.status(404).send('Not Found'); }
+  //   return res.json(battlenet);
+  // });
 };
 
 // Creates a new battlenet in the DB.

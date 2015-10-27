@@ -3,7 +3,8 @@
 angular.module('webGamerApp')
   .controller('MainCtrl', function ($scope, $http, $log, socket) {
     $scope.awesomeThings = [];
-
+    $scope.d3Data = {};
+    $scope.toonName = '';
     $http.get('/api/things').success(function (awesomeThings) {
       $scope.awesomeThings = awesomeThings;
       socket.syncUpdates('thing', $scope.awesomeThings);
@@ -15,7 +16,17 @@ angular.module('webGamerApp')
       //$scope.realms = val.realms;
       $scope.chunkedData = chunk(val.realms, 4);
     });
-
+    
+    $scope.getDiablo = function () {
+      $log.info(window.encodeURIComponent($scope.toonName));
+      $http.get('/api/battlenet/diablo/' + $scope.toonName).success(function (res) {
+        $log.info(res); 
+        $scope.d3Data = res;
+      });
+      
+    };
+    
+    
     function chunk(arr, size) {
       var newArr = [];
       for (var i = 0; i < arr.length; i += size) {

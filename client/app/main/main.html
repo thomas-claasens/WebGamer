@@ -4,14 +4,26 @@
   
 </header>-->
 <div class="container">
-    <h1>Battle Net Status</h1>
-    <div class="row" ng-repeat="rows in chunkedData ">
-      <div tyle="text-transform:capitalize;" class="col-md-3" ng-repeat="realm in rows | filter: realm.type == 'pve' && realm.locale == 'en_GB'">
-        {{realm.name}} - {{realm.status == true ? 'Online' : Offline}} - Population: {{realm.population }}
-      </div>
+  <h1>WoW Realm Status</h1>
+  <!--<div class="row" ng-repeat="rows in chunkedData ">
+    <div tyle="text-transform:capitalize;" class="col-md-3" ng-repeat="realm in rows | filter: realm.type == 'pve' && realm.locale == 'en_GB'">
+      {{realm.name}} - {{realm.status == true ? 'Online' : Offline}} - Population: {{realm.population }}
     </div>
+  </div>-->
 
+</div>
+<div class='container'>
+  <h1>Search Diablo Character</h1>
+  <input type="text" ng-model='toonName' placeholder='Battle Tag'>
+  <button data-ng-click='getDiablo()'>Lookup toon</button>
+  <br /> {{d3Data.battleTag}}
+  <br/> {{d3Data.heroes.length}} Hero's
+  <br />
+  <div data-ng-repeat='hero in d3Data.heroes'>
+    {{hero.name |json}} - {{hero.class}} - {{hero.level}}
+    <br />
   </div>
+</div>
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
