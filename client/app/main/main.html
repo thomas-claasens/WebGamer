@@ -1,13 +1,17 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<header class="hero-unit" id="banner">
-  <div class="container">
-    <h1>'Allo, 'Allo!</h1>
-    <p class="lead">Kick-start your next web app with Angular Fullstack</p>
-    <img src="assets/images/yeoman.png" alt="I'm Yeoman">
-  </div>
-</header>
+<!--<header class="hero-unit" id="banner">
+  
+</header>-->
+<div class="container">
+    <h1>Battle Net Status</h1>
+    <div class="row" ng-repeat="rows in chunkedData ">
+      <div tyle="text-transform:capitalize;" class="col-md-3" ng-repeat="realm in rows | filter: realm.type == 'pve' && realm.locale == 'en_GB'">
+        {{realm.name}} - {{realm.status == true ? 'Online' : Offline}} - Population: {{realm.population }}
+      </div>
+    </div>
 
+  </div>
 <div class="container">
   <div class="row">
     <div class="col-lg-12">
