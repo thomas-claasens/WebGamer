@@ -1,54 +1,109 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<!--<header class="hero-unit" id="banner">
+<header class="hero-unit" id="banner">
   
-</header>-->
+</header>
 <div class="container">
-  <h1>WoW Realm Status</h1>
-  <!--<div class="row" ng-repeat="rows in chunkedData ">
-    <div tyle="text-transform:capitalize;" class="col-md-3" ng-repeat="realm in rows | filter: realm.type == 'pve' && realm.locale == 'en_GB'">
-      {{realm.name}} - {{realm.status == true ? 'Online' : Offline}} - Population: {{realm.population }}
-    </div>
-  </div>-->
+    <div class="row">
+        <div class="col-md-6">
+            <h1>WoW Guild Members</h1>
+            <h2>Tanks</h2>
+            <!--{{guildTanks | json}}-->
+            <div class="row" ng-repeat="rows in guildTanks">
 
-</div>
-<div class='container'>
-  <h1>Search Diablo Character</h1>
-  <input type="text" ng-model='toonName' placeholder='Battle Tag'>
-  <button data-ng-click='getDiablo()'>Lookup toon</button>
-  <br /> {{d3Data.battleTag}}
-  <br/> {{d3Data.heroes.length}} Hero's
-  <br />
-  <div data-ng-repeat='hero in d3Data.heroes'>
-    {{hero.name |json}} - {{hero.class}} - {{hero.level}}
-    <br />
-  </div>
-</div>
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Features:</h1>
-      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="thing in awesomeThings">
-        <li><a href="#" tooltip="{{thing.info}}">{{thing.name}}<button type="button" class="close" ng-click="deleteThing(thing)">&times;</button></a></li>
-      </ul>
-    </div>
-  </div>
+                <div style="text-transform:capitalize;" class="col-md-3" ng-repeat="row in rows">
+                    <!--{{row. | json}}-->
+                    <!---->
+                    <button class="btn btn-info" ng-click="showCharacter(row.character.name)">
+                        <img ng-src="http://media.blizzard.com/wow/icons/18/class_{{row.character.class}}.jpg" width="14" height="14"> {{row.character.className}}<br/>
+                    <b>{{row.character.name}}</b><br/>
+                    Level {{row.character.level}} <br/>
+                    {{row.character.spec.name}} <br />
+                    <!--Add to Raid Team-->
+                    </button>
+                    <br />
+                    <br />
+                </div>
 
-  <form class="thing-form">
-    <label>Syncs in realtime across clients</label>
-    <p class="input-group">
-      <input type="text" class="form-control" placeholder="Add a new thing here." ng-model="newThing">
-      <span class="input-group-btn">
-        <button type="submit" class="btn btn-primary" ng-click="addThing()">Add New</button>
-      </span>
-    </p>
-  </form>
+            </div>
+            <h2>Healers</h2>
+            <div class="row" ng-repeat="rows in healers">
+                <!--{{row | json}}-->
+                <div style="text-transform:capitalize;" class="col-md-3" ng-repeat="row in rows">
+                  <button class="btn btn-info" ng-click="showCharacter(row.character.name)">
+                        <img ng-src="http://media.blizzard.com/wow/icons/18/class_{{row.character.class}}.jpg" width="14" height="14"> {{row.character.className}}<br/>
+                    <b>{{row.character.name}}</b><br/>
+                    Level {{row.character.level}} <br/>
+                    {{row.character.spec.name}} <br />
+                    <!--Add to Raid Team-->
+                    </button>
+                    <br />
+                    <br />
+                </div>
+            </div>
+            <h2>DPS</h2>
+            <div class="row" ng-repeat="rows in dps">
+                <!--{{row | json}}-->
+                <div style="text-transform:capitalize;" class="col-md-3" ng-repeat="row in rows">
+                  <button class=" btn btn-info" ng-click="showCharacter(row.character.name)">
+                        <img ng-src="http://media.blizzard.com/wow/icons/18/class_{{row.character.class}}.jpg" width="14" height="14"> {{row.character.className}}<br/>
+                    <b>{{row.character.name}}</b><br/>
+                    Level {{row.character.level}} <br/>
+                    {{row.character.spec.name}} <br />
+                    <!--Add to Raid Team-->
+                    </button>
+                    <br />
+                    <br />
+                </div>
+            </div>
+            <h2>All</h2>
+            <div class="row" ng-repeat="rows in all100">
+                <!--{{row | json}}-->
+                <div style="text-transform:capitalize;" class="col-md-3" ng-repeat="row in rows">
+                   <button class="btn btn-default" ng-click="showCharacter(row.character.name)">
+                        <img ng-src="http://media.blizzard.com/wow/icons/18/class_{{row.character.class}}.jpg" width="14" height="14"> {{row.character.className}}<br/>
+                    <b>{{row.character.name}}</b><br/>
+                    Level {{row.character.level}} <br/>
+                    {{row.character.spec.name}} <br />
+                    <!--Add to Raid Team-->
+                    </button>
+                    <br />
+                    <br />
+                </div>
+            </div>
+        </div>
+        <!-- Raid Team -->
+        <div class="col-md-5 ">
+            <h1>Character Information</h1>
+            <!--{{selectedToon |json}}-->
+            <b>Name:</b> {{selectedToon.name}}<br/>
+            <!--Class: {{selectedToon.class}}<br/>-->
+            <b>Last Updated:</b> {{selectedToon.lastModified | date:'yyyy-MM-dd HH:mm:ss Z'}}<br/>
+            <b>Item Level:</b> {{selectedToon.items.averageItemLevel}} <b>Equiped:</b> {{selectedToon.items.averageItemLevelEquipped}}<br />
+            <h3>Boss Kills this reset:</h3> 
+            <h4> Start:{{currentReset.start | date:'yyyy-MM-dd'}} <br/> 
+            End: {{currentReset.end | date:'yyyy-MM-dd'}})</h4>
+            <!-- Get the raid kills for the toon from the feed.-->
+            <div ng-repeat="item in selectedFeed">
+                <!--{{item |json}}-->
+                <b>Name:</b>{{item.achievement.title}}<br/>
+                <b>Killed @</b> {{item.timestamp | date:'yyyy-MM-dd HH:mm:ss Z'}}<br />
+            </div>
+            <!--<h2>Tanks</h2>
+            
+            <h2>Healers</h2>
+            
+            <h2>DPS</h2>-->
+            
+        </div>
+    </div>
 </div>
+
 
 <footer class="footer">
-  <div class="container">
-    <!--<p>Angular Fullstack v2.1.1 |
+    <div class="container">
+        <!--<p>Angular Fullstack v2.1.1 |
       <a href="https://twitter.com/tyhenkel">@tyhenkel</a> |
       <a href="https://github.com/DaftMonk/generator-angular-fullstack/issues?state=open">Issues</a></p>-->
-  </div>
+    </div>
 </footer>

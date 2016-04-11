@@ -2,19 +2,31 @@
 
 var _ = require('lodash');
 var Battlenet = require('./battlenet.model');
-var bnet = require('battlenet-api')('w2gwwu25wwnm2vhw8bb5a3wcq2yfuvj3');
+var bnet = require('battlenet-api')('qrfwx6c29zs8g2hw8ze2qz7yke9r36v2');
 // Get list of battlenets
 exports.index = function (req, res) {
   bnet.wow.realmStatus({ origin: 'eu' }, function (err, data) { 
-    //console.log(data);
     return res.status(200).json(data);
   });
-  // Battlenet.find(function (err, battlenets) {
-  //   if(err) { return handleError(res, err); }
-  //   return res.status(200).json(battlenets);
-  // });
 };
 
+exports.showCharacterInfo = function(req, res) {
+//:realm/:name
+    var realm = req.params.realm;
+    var toonName = req.params.charName;
+    
+   toonName = require('querystring').escape(toonName);
+    
+    var searchData = { 
+        origin: 'eu', 
+        realm: realm, 
+        name: toonName, 
+        fields: ['items', 'progression', 'feed']
+    };
+    bnet.wow.character.aggregate(searchData, function(err, data) {
+        return res.json(data);        
+    }); 
+};
 // Get a single battlenet
 exports.show = function (req, res) {
   var tag = req.params.tag;
@@ -24,13 +36,27 @@ exports.show = function (req, res) {
     console.log(data);
     return res.json(data);
    });
-  // Battlenet.findById(req.params.id, function (err, battlenet) {
-  //   if(err) { return handleError(res, err); }
-  //   if(!battlenet) { return res.status(404).send('Not Found'); }
-  //   return res.json(battlenet);
-  // });
+ 
+};
+exports.showClasses = function (req, res) {
+    bnet.wow.data.characterClasses({ origin: 'eu' }, function(err, data) {
+        console.log(data);
+        console.log(err);
+        return res.json(data);
+     });
 };
 
+exports.showGuild = function (req, res) {
+    var tag = req.params.realm;
+    var guildName = req.params.guild;
+    console.log(tag);
+    console.log(guildName);
+    bnet.wow.guild.aggregate({ origin: 'eu', realm: 'silvermoon', name: 'Forward%20%C3%BAnto%20Dawn', fields: ['members', 'achievements', 'Progression'] }, function(err, data) {
+        console.log(data);
+        console.log(err);
+        return res.json(data);
+     });
+};
 // Creates a new battlenet in the DB.
 exports.create = function(req, res) {
   Battlenet.create(req.body, function(err, battlenet) {
