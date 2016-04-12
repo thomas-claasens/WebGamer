@@ -18,6 +18,7 @@ function onConnect(socket) {
   });
 
   // Insert sockets below
+//   require('../api/raidteam/raidteam.socket').register(socket);
   require('../api/battlenet/battlenet.socket').register(socket);
   require('../api/thing/thing.socket').register(socket);
 }

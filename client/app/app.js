@@ -6,7 +6,8 @@ angular.module('webGamerApp', [
   'ngSanitize',
   'ngRoute',
   'btford.socket-io',
-  'ui.bootstrap'
+  'ui.bootstrap',
+  'angular-loading-bar'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider

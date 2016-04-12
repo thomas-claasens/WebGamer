@@ -5,7 +5,10 @@ angular.module('webGamerApp')
     $scope.menu = [{
       'title': 'Home',
       'link': '/'
-    }];
+    }, {
+            'title': 'Raid Team',
+            'link': '/raidteam'
+    }]; 
 
     $scope.isCollapsed = true;
     $scope.isLoggedIn = Auth.isLoggedIn;
