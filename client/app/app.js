@@ -7,7 +7,8 @@ angular.module('webGamerApp', [
   'ngRoute',
   'btford.socket-io',
   'ui.bootstrap',
-  'angular-loading-bar'
+  'angular-loading-bar',
+//   'moment'
 ])
   .config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider

@@ -7,22 +7,29 @@ angular.module('webGamerApp')
         $scope.selectedToon = {};
         $scope.toonName = '';
         $scope.currentReset = {
-            start: new Date(),
+            start: new Date(1970, 1, 1, 0, 0, 0, 0),
             end: new Date()
         };
 
         $scope.guildData = [];
-
-
+        // var a = moment('2016-01-01');
+        // var b = a.add(1, 'week');
+        // $scope.mom = moment().subtract(1, 'days').calendar();
         var today = new Date();
+        if (today.getDay() == 3) {
+            $scope.currentReset.start = moment();
+            $scope.currentReset.end = moment().add(7, 'days');
+        }
         if (today.getDay() < 3) {
-            //We are still in the current lockout
-            //get the date of day 3 of the week.
-            var result = new Date();
-            $scope.currentReset.end = new Date(result.setDate(result.getDate() + (3 - today.getDay())));
-            var priorDate = new Date().setDate($scope.currentReset.end.getDate() - 7);
-            $scope.currentReset.start = new Date(priorDate);
-            $log.info($scope.currentReset);
+            //We are still in the lst reset.
+            $scope.currentReset.end = moment().add(3 - today.getDay(), 'days').format('');
+            $scope.currentReset.start = moment($scope.currentReset.end).subtract(7, 'days').format('');
+        }
+        if (today.getDay() > 3) {
+            //We are in the new reset.
+            //How many days have past since 3, = currentDay - 3 = 1
+            $scope.currentReset.start = moment().subtract(today.getDay() - 3, 'days').format('');
+            $scope.currentReset.end = moment($scope.currentReset.start).add(7, 'days').format('');
         }
 
 
@@ -44,7 +51,7 @@ angular.module('webGamerApp')
         $http.get('/api/battlenet/wow/Silvermoon/' + 'Forward únto Dawn').success(function(val) {
             $scope.guildData = val;
             var level100Member = _.filter(val.members, function(o) {
-                return o.character.level == 100 && o.rank < 6;
+                return o.character.level == 100 && o.rank <= 6;
             })
             level100Member = _.sortBy(level100Member, ['rank']);
             var tanks = _.filter(level100Member, function(o) {
@@ -93,16 +100,12 @@ angular.module('webGamerApp')
         $scope.showCharacter = function(name) {
             $log.info(name);
             $http.get('/api/battlenet/wow/char/silvermoon/' + name).success(function(val) {
-               // $log.info(val);
+                // $log.info(val);
                 $scope.selectedToon = val;
                 $scope.selectedFeed = _.filter(val.feed, function(o) {
-                    // $log.info(o);
-
-                    // var d2 = new Date(d1);
-                    // var same = d1.getTime() === d2.getTime();
-                    // var notSame = d1.getTime() !== d2.getTime();
-                     return (o.type == "BOSSKILL") &&
-                         (o.timestamp <= $scope.currentReset.end && o.timestamp >= $scope.currentReset.start) &&
+                    $log.info('In Range:', (moment(o.timestamp).format() <= $scope.currentReset.end && moment(o.timestamp).format() >= $scope.currentReset.start));
+                    return (o.type == "BOSSKILL") &&
+                        (moment(o.timestamp).format() <= $scope.currentReset.end && moment(o.timestamp).format() >= $scope.currentReset.start) &&
                         o.achievement.title.indexOf("(Heroic Hellfire Citadel)") > -1;
                 });
             });
