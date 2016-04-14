@@ -43,11 +43,11 @@ angular.module('webGamerApp')
         //       //$scope.realms = val.realms;
         //      $scope.classes = val.classes;
         //     });
-        $http.get('/api/battlenet').success(function(val) {
-            //$log.info(val);
-            //$scope.realms = val.realms;
-            $scope.chunkedData = chunk(val.realms, 4);
-        });
+        // $http.get('/api/battlenet').success(function(val) {
+        //     //$log.info(val);
+        //     //$scope.realms = val.realms;
+        //     $scope.chunkedData = chunk(val.realms, 4);
+        // });
         $http.get('/api/battlenet/wow/Silvermoon/' + 'Forward únto Dawn').success(function(val) {
             $scope.guildData = val;
             var level100Member = _.filter(val.members, function(o) {
