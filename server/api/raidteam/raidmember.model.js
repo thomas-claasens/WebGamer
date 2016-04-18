@@ -7,7 +7,7 @@ var MemberSchema = new Schema({
   name: String,
   guild: String,
   active: Boolean,
-  role: {enum: ['TANK', 'HEALER', 'DPS']}
+  role: {enum: ['TANK', 'HEALING', 'DPS']}
 });
 
 module.exports = mongoose.model('Member', MemberSchema);

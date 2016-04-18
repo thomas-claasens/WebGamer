@@ -8,5 +8,5 @@ module.exports = {
     uri: 'mongodb://localhost/webgamer-dev'
   },
 
-  seedDB: true
+  seedDB: false
 };

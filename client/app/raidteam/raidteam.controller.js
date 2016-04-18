@@ -11,17 +11,50 @@ angular.module('webGamerApp')
             $log.info('Load Called');
             getGuildMembers();
             $log.info('Loaded Guild Members');
+            getCurrentTeam();
 
         };
         $scope.addCharacter = function(data) {
-            //This will add the member to the db as member of the raid group.
-            //$log.info('Here');
-            //$log.info(data);
+        // name: String,
+        // guild: String,
+        // active: Boolean,
+        // role: {enum: ['TANK', 'HEALER', 'DPS']}
+        //Build the new Member Details for the team.
+            $log.info(JSON.stringify(data));
+            // var member = {
+            //     name: data.name,
+            //     guild: data.guild,
+            //     active: true,
+            //     role: data.spec.role
+            // };
+            // $scope.team[0].members.push(member);
+            //$log.info($scope.team);
+            $http.post('/api/battlenet', data).success(function(val) {
+                $log.info('Member Response:', val);
+                $scope.team[0].members.push(val);
+                $http.put('/api/raidteams/' + $scope.team[0]._id, $scope.team[0]).success(function(val) {
+                    $log.info('Team Response:', val);
+                });
+            });
+            // $http.put('/api/raidteams/' + $scope.team[0]._id).success(function(val) {
+            //     $log.info('Updated');
+            // });
         };
-
+        
         $scope.removeCharacter = function(data) {
         //this will remove the member from the raid group.    
-        }        
+        }   
+
+
+        function getCurrentTeam() {
+            $http.get('/api/raidteams').success(function(val) {
+                $log.info(val);
+                $scope.team = val;
+                if ($scope.team[0].members === undefined) {
+                    $scope.team[0].members = [];
+}
+            });
+        };
         function getGuildMembers() {
             $http.get('/api/battlenet/wow/Silvermoon/' + 'Forward únto Dawn').success(function(val) {
                 $scope.guildData = val;

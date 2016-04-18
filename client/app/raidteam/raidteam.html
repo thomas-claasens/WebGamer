@@ -1,5 +1,6 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <header class="hero-unit" id="banner">
+    Team:{{team[0].name}} - Members: {{team[0].members.length}}
 </header>
 <div class="container">
     <div class="row">
@@ -8,6 +9,9 @@
         </div>-->
         <div class="col-md-6">
             <h1>Current Team</h1>
+            <div ng-repeat="m in team[0].members">
+                {{m |json}}<br />
+            </div>
             <h2>Tanks</h2>
             <h2>Healers</h2>
             <h2>Ranged Dps</h2>

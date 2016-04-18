@@ -60,7 +60,8 @@ exports.showGuild = function (req, res) {
 // Creates a new battlenet in the DB.
 exports.create = function(req, res) {
   Battlenet.create(req.body, function(err, battlenet) {
-    if(err) { return handleError(res, err); }
+      if (err) { return handleError(res, err); }
+      console.log(battlenet);
     return res.status(201).json(battlenet);
   });
 };
