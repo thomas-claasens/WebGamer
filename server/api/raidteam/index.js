@@ -6,5 +6,5 @@ var controller = require('./raidteam.controller');
 var router = express.Router();
 
 router.get('/', controller.index);
-router.put('/:id', controller.update);
+router.post('/:id', controller.update);
 module.exports = router;

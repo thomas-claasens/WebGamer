@@ -10,7 +10,8 @@ Team.find({}).remove(function() {
     Team.create({
         name: 'Forward%20%C3%BAnto%20Dawn Group',
         guild: 'Forward%20%C3%BAnto%20Dawn',
-        realm: 'Silvermoon'
+        realm: 'Silvermoon',    
+        members : []
     });
 });
 // var Thing = require('../api/thing/thing.model');

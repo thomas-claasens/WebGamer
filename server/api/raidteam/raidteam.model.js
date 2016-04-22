@@ -7,7 +7,7 @@ var TeamSchema = new Schema({
   name: String,
   guild: String,
   realm: Boolean,
-  members: [{ type: Schema.Types.ObjectId, ref: 'Member' }]
+  members: [{ type: Schema.Types.ObjectId, ref: 'Battlenet' }]
   
 });
 

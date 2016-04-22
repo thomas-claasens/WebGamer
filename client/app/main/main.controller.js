@@ -17,19 +17,19 @@ angular.module('webGamerApp')
         // $scope.mom = moment().subtract(1, 'days').calendar();
         var today = new Date();
         if (today.getDay() == 3) {
-            $scope.currentReset.start = moment();
-            $scope.currentReset.end = moment().add(7, 'days');
+            $scope.currentReset.start = moment().startOf('day').add('hours', 5);
+            $scope.currentReset.end = moment().add(7, 'days').endOf('day');
         }
         if (today.getDay() < 3) {
             //We are still in the lst reset.
-            $scope.currentReset.end = moment().add(3 - today.getDay(), 'days').format('');
-            $scope.currentReset.start = moment($scope.currentReset.end).subtract(7, 'days').format('');
+            $scope.currentReset.end = moment().add(3 - today.getDay(), 'days').startOf('day').add('hours', 5).format('');
+            $scope.currentReset.start = moment($scope.currentReset.end).subtract(7, 'days').endOf('day').format('');
         }
         if (today.getDay() > 3) {
             //We are in the new reset.
             //How many days have past since 3, = currentDay - 3 = 1
-            $scope.currentReset.start = moment().subtract(today.getDay() - 3, 'days').format('');
-            $scope.currentReset.end = moment($scope.currentReset.start).add(7, 'days').format('');
+            $scope.currentReset.start = moment().subtract(today.getDay() - 3, 'days').startOf('day').add('hours', 5).format('');
+            $scope.currentReset.end = moment($scope.currentReset.start).add(7, 'days').endOf('day').format('');
         }
 
 
@@ -99,14 +99,19 @@ angular.module('webGamerApp')
 
         $scope.showCharacter = function(name) {
             $log.info(name);
+            //name = 'tottzs';
             $http.get('/api/battlenet/wow/char/silvermoon/' + name).success(function(val) {
                 // $log.info(val);
                 $scope.selectedToon = val;
                 $scope.selectedFeed = _.filter(val.feed, function(o) {
-                    $log.info('In Range:', (moment(o.timestamp).format() <= $scope.currentReset.end && moment(o.timestamp).format() >= $scope.currentReset.start));
-                    return (o.type == "BOSSKILL") &&
+                    //$log.info('In Range:', (moment(o.timestamp).format() <= $scope.currentReset.end && moment(o.timestamp).format() >= $scope.currentReset.start));
+                    $log.info(o.type);
+                    if (o.type == 'LOOT') {
+                        $log.info(o);
+                    }
+                    return (((o.type == "BOSSKILL")) &&
                         (moment(o.timestamp).format() <= $scope.currentReset.end && moment(o.timestamp).format() >= $scope.currentReset.start) &&
-                        o.achievement.title.indexOf("(Heroic Hellfire Citadel)") > -1;
+                        (o.achievement.title.indexOf("(Heroic Hellfire Citadel)") > -1 || o.achievement.title.indexOf("(Mythic ") > -1));
                 });
             });
         };

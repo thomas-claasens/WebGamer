@@ -23,7 +23,8 @@ exports.showCharacterInfo = function(req, res) {
         name: toonName, 
         fields: ['items', 'progression', 'feed']
     };
-    bnet.wow.character.aggregate(searchData, function(err, data) {
+    bnet.wow.character.aggregate(searchData, function (err, data) {
+      console.log(data);
         return res.json(data);        
     }); 
 };
@@ -32,16 +33,16 @@ exports.show = function (req, res) {
   var tag = req.params.tag;
   tag = 'ONeX%232407';
   bnet.d3.profile.career({ origin: 'eu', tag: tag }, function (err, data) {
-    console.log(err);
-    console.log(data);
+    // console.log(err);
+    // console.log(data);
     return res.json(data);
    });
  
 };
 exports.showClasses = function (req, res) {
     bnet.wow.data.characterClasses({ origin: 'eu' }, function(err, data) {
-        console.log(data);
-        console.log(err);
+        // console.log(data);
+        // console.log(err);
         return res.json(data);
      });
 };
@@ -49,11 +50,11 @@ exports.showClasses = function (req, res) {
 exports.showGuild = function (req, res) {
     var tag = req.params.realm;
     var guildName = req.params.guild;
-    console.log(tag);
-    console.log(guildName);
+   // console.log(tag);
+   // console.log(guildName);
     bnet.wow.guild.aggregate({ origin: 'eu', realm: 'silvermoon', name: 'Forward%20%C3%BAnto%20Dawn', fields: ['members', 'achievements', 'Progression'] }, function(err, data) {
-        console.log(data);
-        console.log(err);
+       // console.log(data);
+       // console.log(err);
         return res.json(data);
      });
 };
@@ -61,7 +62,7 @@ exports.showGuild = function (req, res) {
 exports.create = function(req, res) {
   Battlenet.create(req.body, function(err, battlenet) {
       if (err) { return handleError(res, err); }
-      console.log(battlenet);
+      // console.log(battlenet);
     return res.status(201).json(battlenet);
   });
 };

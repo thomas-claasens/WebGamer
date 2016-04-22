@@ -17,5 +17,5 @@ module.exports = {
   mongo: {
     uri: 'mongodb://webgamer:gamemaster@ds043694.mongolab.com:43694/webgamer'
   },
-  //seedDB: true,
+  seedDB: false,
 };

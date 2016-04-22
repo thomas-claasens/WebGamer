@@ -1,48 +1,66 @@
 <div ng-include="'components/navbar/navbar.html'"></div>
 <header class="hero-unit" id="banner">
-    Team:{{team[0].name}} - Members: {{team[0].members.length}}
+    Team:{{team[0].name}} - Members: {{team[0].members.length}} - Avg Item Level {{totalLevels / team[0].members.length}}
 </header>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <!--<div ng-repeat="class in sortedClasses">
             <div>{{class.name}}</div>
         </div>-->
-        <div class="col-md-6">
+        <div class="col-md-8">
             <h1>Current Team</h1>
-            <div ng-repeat="m in team[0].members">
-                {{m |json}}<br />
-            </div>
-            <h2>Tanks</h2>
-            <h2>Healers</h2>
-            <h2>Ranged Dps</h2>
-            <h2>Melee Dps</h2>
-        </div>
-        <div class="col-md-6">
-            <h1>Available Players {{level100Member.length}}</h1>
-            <h2>Tanks {{allTanks.length}}</h2>
-            <div class="row" ng-repeat="rows in teamTanks">
-
-                <div style="text-transform:capitalize;" class="col-md-3" ng-repeat="row in rows">
+            <div class="row">
+                <div style="text-transform:capitalize;" class="col-md-4" style="background-color:red" ng-repeat="m in team[0].members">
                     <!--{{row. | json}}-->
                     <!---->
-                    <button class="btn btn-info" ng-click="addCharacter(row.character)">
+                    <div class="well">
+                    <img ng-src="http://media.blizzard.com/wow/icons/18/class_{{m.class}}.jpg" width="20" height="20" />                    {{m.spec.name}} {{m.className}}
+                    <br/>
+                    <b><a ng-href="http://www.askmrrobot.com/wow/player/eu/{{m.realm}}/{{m.name}}" target="_blank">{{m.name}}</a></b><br/>
+                    <!--Level {{m.level}} <br/> -->
+                    Equiped Ilvl:{{m.items.averageItemLevelEquipped}}<br /> Lockedout Bosses: [{{m.lockedOut.length}}]<br
+                    />
+                    <div ng-repeat="boss in m.lockedOut">
+                        <span class="btn-danger">{{boss.achievement.title}} @ {{boss.timestamp | date:'yyyy-MM-dd HH:mm:ss Z' }}</span><br
+                        />
+                    </div>
+                    <!--Add to Raid Team-->
+                </div>
+            </div>
+            </div>
+            <!--<h2>Tanks</h2>
+            <h2>Healers</h2>
+            <h2>Ranged Dps</h2>
+            <h2>Melee Dps</h2>-->
+        </div>
+        <div class="col-md-4">
+            <!-- scroll this one -->
+            <h1>Available Players {{level100Member.length}}</h1>
+            <h3>Tanks {{allTanks.length}}</h3>
+
+            <!--<div class="collapse" id="collapseTanks">-->
+            <div class="row" ng-repeat="rows in teamTanks">
+
+                <div style="text-transform:capitalize;" class="col-md-4" ng-repeat="row in rows">
+                    <!--{{row. | json}}-->
+                   <div class="well">
+                    <button class="btn btn-primary" ng-click="addCharacter(row.character)">
                         <img ng-src="http://media.blizzard.com/wow/icons/18/class_{{row.character.class}}.jpg" width="20" height="20"> {{row.character.className}}<br/>
                     <b>{{row.character.name}}</b><br/>
                     Level {{row.character.level}} <br/>
                     {{row.character.spec.name}} <br />
                     <!--Add to Raid Team-->
                     </button>
-                    <br />
-                    <br />
+                   </div>
                 </div>
 
             </div>
-            <h2>Healers {{allHealers.length}}</h2>
+            <h3>Healers {{allHealers.length}}</h3>
             <div class="row" ng-repeat="rows in teamHealers">
 
                 <div style="text-transform:capitalize;" class="col-md-3" ng-repeat="row in rows">
                     <!--{{row. | json}}-->
-                    <!---->
+                   <div class="well">
                     <button class="btn btn-info" ng-click="addCharacter(row.character)">
                         <img ng-src="http://media.blizzard.com/wow/icons/18/class_{{row.character.class}}.jpg" width="20" height="20"> {{row.character.className}}<br/>
                     <b>{{row.character.name}}</b><br/>
@@ -50,17 +68,16 @@
                     {{row.character.spec.name}} <br />
                     <!--Add to Raid Team-->
                     </button>
-                    <br />
-                    <br />
+                   </div>
                 </div>
 
             </div>
-            <h2>Ranged Dps {{allRangedDps.length}}</h2>
+            <h3>Ranged Dps {{allRangedDps.length}}</h3>
             <div class="row" ng-repeat="rows in teamRangedDps">
 
                 <div style="text-transform:capitalize;" class="col-md-3" ng-repeat="row in rows">
                     <!--{{row. | json}}-->
-                    <!---->
+                    <div class="well">
                     <button class="btn btn-info" ng-click="addCharacter(row.character)">
                         <img ng-src="http://media.blizzard.com/wow/icons/18/class_{{row.character.class}}.jpg" width="20" height="20"> {{row.character.className}}<br/>
                     <b>{{row.character.name}}</b><br/>
@@ -68,12 +85,11 @@
                     {{row.character.spec.name}} <br />
                     <!--Add to Raid Team-->
                     </button>
-                    <br />
-                    <br />
+                    </div>
                 </div>
 
             </div>
-            <h2>Melee Dps {{allMeleeDps.length}}</h2>
+            <h3>Melee Dps {{allMeleeDps.length}}</h3>
             <div class="row" ng-repeat="rows in teamMeleeDps">
 
                 <div style="text-transform:capitalize;" class="col-md-3" ng-repeat="row in rows">
